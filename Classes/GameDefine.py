@@ -58,10 +58,12 @@ class TextConstants:
 	HIT_TEXT = "HITS - "
 	MISS_TEXT = "MISSES - "
 	LEVEL_TEXT = "LEVEL - "
+	HIGH_SCORE_TEXT = "HIGH SCORE -"
 
-	HIT_POS = GameConstants.SCREEN_WIDTH / 2
-	MISS_POS = GameConstants.SCREEN_WIDTH / 5 * 4
-	LEVEL_POS = GameConstants.SCREEN_WIDTH / 5
+	HIT_POS = GameConstants.SCREEN_WIDTH / 4 * 0.4
+	MISS_POS = GameConstants.SCREEN_WIDTH / 4 * 1.3
+	LEVEL_POS = GameConstants.SCREEN_WIDTH / 4 * 2.3
+	HIGH_SCORE_POS = GameConstants.SCREEN_WIDTH / 4 * 3.3
 
 	TEXT_COLOR = [255, 255, 255] # White
 
@@ -70,7 +72,7 @@ class ImageConstants:
 	IMAGE_BG = IMAGE + "background.png"
 	IMAGE_HAMMER = IMAGE + "hammer.png"
 	IMAGE_ZOMBIE = IMAGE + "zombie.png"
- 
+
 class SoundConstants:
 	SOUND = "./Resources/sounds/"
 	SOUND_BG = SOUND + "music_bg.mp3"
