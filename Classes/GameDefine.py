@@ -52,6 +52,7 @@ class AnimationConstants:
 class FontConstants:
 	FONT_NAME = "./Resources/fonts/ZOMBIE.ttf"
 	FONT_SIZE = 36
+	FONT_SIZE_OVER = 108
 
 class TextConstants:
 	GAME_TITLE = "Whack A Zombie - Assignment 1"
@@ -59,11 +60,14 @@ class TextConstants:
 	MISS_TEXT = "MISSES - "
 	LEVEL_TEXT = "LEVEL - "
 	HIGH_SCORE_TEXT = "HIGH SCORE -"
+	LIVES_TEXT = "LIVES -"
 
 	HIT_POS = GameConstants.SCREEN_WIDTH / 4 * 0.4
 	MISS_POS = GameConstants.SCREEN_WIDTH / 4 * 1.3
 	LEVEL_POS = GameConstants.SCREEN_WIDTH / 4 * 2.3
 	HIGH_SCORE_POS = GameConstants.SCREEN_WIDTH / 4 * 3.3
+
+	LIVES_POS = GameConstants.SCREEN_HEIGHT/-1 * 1
 
 	TEXT_COLOR = [255, 255, 255] # White
 
