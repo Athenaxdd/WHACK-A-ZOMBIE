@@ -19,6 +19,8 @@ class Game:
         self.hits = 0
         self.misses = 0
         self.level = 1
+        self.lives = 3
+        self.high_score = self.load_high_score()
 
         # Position of the graves in background
         self.grave_positions = []
@@ -49,6 +51,7 @@ class Game:
 
         # Initialize sound effects
         self.soundEffect = SoundEffect()
+        
 
     # Calculate the level up based on current hit & LEVEL_HIT_GAP
     def getPlayerLevel(self):
@@ -86,7 +89,7 @@ class Game:
         else:
             self.screen.blit(image, [mouse_x, mouse_y])
 
-    # Update the zombie anition, re-calculate the player's hits, misses, level
+    # Update the zombie animation, re-calculate the player's hits, misses, level
     def update_sprite(self, image, graveStoneIndex, isHit):
         # Update the zombie animation
         self.screen.blit(self.background, (0, 0))
@@ -117,6 +120,47 @@ class Game:
         level_text_pos.centery = Constants.FONT_SIZE
         self.screen.blit(level_text, level_text_pos)
 
+    def load_high_score(self):
+        try:
+            with open('high_score.txt', 'r') as file:
+                return int(file.read())
+        except FileNotFoundError:
+            return 0
+
+    def save_high_score(self):
+        with open('high_score.txt', 'w') as file:
+            file.write(str(self.high_score))
+
+    def render_high_score(self):
+        current_high_score_text = Constants.HIGH_SCORE_TEXT + str(self.high_score)
+        high_score_text = self.font_obj.render(current_high_score_text, True, Constants.TEXT_COLOR)
+        high_score_text_pos = high_score_text.get_rect()
+        high_score_text_pos.centerx = Constants.HIGH_SCORE_POS
+        high_score_text_pos.centery = Constants.FONT_SIZE
+        self.screen.blit(high_score_text, high_score_text_pos)
+    
+    def render_lives(self):
+        current_lives_text = Constants.LIVES_TEXT + str(self.lives)
+        lives_text = self.font_obj.render(current_lives_text, True, Constants.TEXT_COLOR)
+        lives_text_pos = lives_text.get_rect()
+        lives_text_pos.centerx = Constants.SCREEN_WIDTH // 2
+        lives_text_pos.centery = Constants.SCREEN_HEIGHT - Constants.FONT_SIZE
+        self.screen.blit(lives_text, lives_text_pos)
+
+    def show_end_screen(self):
+        self.font_obj_end = pygame.font.Font(Constants.FONT_NAME, Constants.FONT_SIZE_OVER)
+        game_over_text = self.font_obj_end.render('Game Over', True, Constants.TEXT_COLOR)
+        game_over_text_pos = game_over_text.get_rect()
+        game_over_text_pos.centerx = Constants.SCREEN_WIDTH // 2
+        game_over_text_pos.centery = Constants.SCREEN_HEIGHT // 2
+        self.screen.blit(game_over_text, game_over_text_pos)
+        
+        pygame.display.flip()
+    def game_over(self):
+        if self.lives == 0:
+            self.show_end_screen()
+            pygame.time.wait(3000)  # Wait for 2 seconds
+            pygame.quit()
     # Start the game's main loop
     def start(self):
         isHit = False # Check if zombie is hit or not
@@ -139,7 +183,7 @@ class Game:
             self.zombie[i].set_colorkey((0, 0, 0))
             self.zombie[i] = self.zombie[i].convert_alpha()     
 
-        while loop:          
+        while loop:         
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     loop = False
@@ -155,7 +199,10 @@ class Game:
                     else:
                         self.misses += 1
                         self.soundEffect.playMissSound() # Play miss sound effect
-                        isHit = False                  
+                        isHit = False 
+                    if self.hits > self.high_score:
+                        self.high_score = self.hits
+                        self.save_high_score()                 
 
             mil = clock.tick(Constants.FPS)
             sec = mil / 1000.0
@@ -184,6 +231,7 @@ class Game:
                     if spawnAnimationIndex < 0:
                         spawnAnimationIndex = 0
                         zombieStatus = 1
+                        self.lives -= 1
                         graveStoneIndex = random.randint(0, Constants.GRAVE_NUM_MAX - 1)
 
             if (zombieStatus == 3): #Zombie status: Dead
@@ -200,13 +248,16 @@ class Game:
                         graveStoneIndex = random.randint(0, Constants.GRAVE_NUM_MAX - 1)
 
             self.update_sprite(pic, graveStoneIndex, isHit)
+            self.render_high_score()
+            self.render_lives()
+            self.game_over()
 
             #Check hammer animation
             hammer_time += sec
             if (hammer_time > Constants.HAMMER_ANI_TIME) & (isHit):
                 hammer_time = 0
                 isHit = False
-   
+
             # Update the display     
             pygame.display.flip()
 
