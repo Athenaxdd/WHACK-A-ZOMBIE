@@ -19,17 +19,15 @@ class ZombieConstants:
 	ZOM_SPRITE_6 = [864, 0, 117, 81]
 
 class GraveConstants:
-	GRAVE_NUM_MAX = 10
-	GRAVE_POS_1 = [101, 205 - ZombieConstants.ZOM_HEIGHT]
-	GRAVE_POS_2 = [350, 204 - ZombieConstants.ZOM_HEIGHT]
-	GRAVE_POS_3 = [580, 214 - ZombieConstants.ZOM_HEIGHT]
-	GRAVE_POS_4 = [182, 297 - ZombieConstants.ZOM_HEIGHT]
-	GRAVE_POS_5 = [422, 295 - ZombieConstants.ZOM_HEIGHT]
-	GRAVE_POS_6 = [254, 404 - ZombieConstants.ZOM_HEIGHT]
-	GRAVE_POS_7 = [505, 414 - ZombieConstants.ZOM_HEIGHT]
-	GRAVE_POS_8 = [98, 514 - ZombieConstants.ZOM_HEIGHT]
-	GRAVE_POS_9 = [348, 510 - ZombieConstants.ZOM_HEIGHT]
-	GRAVE_POS_10 = [589, 510 - ZombieConstants.ZOM_HEIGHT]
+	GRAVE_NUM_MAX = 8
+	GRAVE_POS_1 = [101, 230 - ZombieConstants.ZOM_HEIGHT]
+	GRAVE_POS_2 = [345, 230 - ZombieConstants.ZOM_HEIGHT]
+	GRAVE_POS_3 = [580, 230 - ZombieConstants.ZOM_HEIGHT]
+	GRAVE_POS_4 = [230, 380 - ZombieConstants.ZOM_HEIGHT]
+	GRAVE_POS_5 = [475, 380 - ZombieConstants.ZOM_HEIGHT]
+	GRAVE_POS_6 = [101, 530 - ZombieConstants.ZOM_HEIGHT]
+	GRAVE_POS_7 = [365, 530 - ZombieConstants.ZOM_HEIGHT]
+	GRAVE_POS_8 = [590, 530 - ZombieConstants.ZOM_HEIGHT]
 
 class HammerConstants:
 	HAMMER_ANGLE = 45

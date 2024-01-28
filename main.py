@@ -32,8 +32,6 @@ class Game:
         self.grave_positions.append(Constants.GRAVE_POS_6)
         self.grave_positions.append(Constants.GRAVE_POS_7)
         self.grave_positions.append(Constants.GRAVE_POS_8)
-        self.grave_positions.append(Constants.GRAVE_POS_9)
-        self.grave_positions.append(Constants.GRAVE_POS_10)
 
         # Initialize zombie's sprite sheet - 6 states    
         zombie_sprite_sheet = pygame.image.load(Constants.IMAGE_ZOMBIE)
