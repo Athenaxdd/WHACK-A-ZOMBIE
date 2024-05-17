@@ -1,9 +1,8 @@
 import pygame
 import random
 from pygame import *
-from Classes.GameDefine import Constants
+from Classes.GameDefine import Constants, Zombie
 from Classes.SoundEffect import SoundEffect
-
 
 class Game:
     def __init__(self):
@@ -20,7 +19,9 @@ class Game:
         self.misses = 0
         self.level = 1
         self.lives = 3
-        self.high_score = self.load_high_score()
+        self.high_score = self.load_high_score() #preload high score from previous play
+
+        self.zombies = []
 
         # Position of the graves in background
         self.grave_positions = []
@@ -77,6 +78,14 @@ class Game:
             return True
         else:
             return False
+    def generateZombies(self, num_zombies):
+        if len(self.zombies) + num_zombies > Constants.MAX_ZOMBIES:  # Check if maximum zombies reached
+            return 0
+        spawnIndices = random.choices(range(Constants.GRAVE_NUM_MAX), num_zombies)  # Generate multiple spawn indices
+        for spawnIndex in spawnIndices:
+            newZombie = Zombie(spawnIndex, self.zombie[0])  # Create a new zombie
+            self.zombies.append(newZombie)
+        return 1
 
     # Update, rotate the hammer
     def update_hammer(self, mouse_position, image, image_rotate, isHit):
@@ -173,6 +182,9 @@ class Game:
         deadAnimationIndex = 3
         stayTime = 0
         timeToRespawn = 1.5
+        gameTime = 0
+        lastSpawnTime = 0
+        respawnTime = 0.3
         pic = self.zombie[0]
         mouse.set_visible(False)
         clock = pygame.time.Clock()  # Time variables
@@ -214,6 +226,7 @@ class Game:
                             spawnAnimationIndex = Constants.SPAWN_ANI_INDEX_MAX
                             zombieStatus = 2
                             stayTime = 0
+                            continue
                     else:
                         pic = self.zombie[spawnAnimationIndex]
                         spawnAnimationIndex += 1
@@ -231,6 +244,7 @@ class Game:
                         zombieStatus = 1
                         self.lives -= 1
                         graveStoneIndex = random.randint(0, Constants.GRAVE_NUM_MAX - 1)
+                        # self.generateZombie()
 
             if (zombieStatus == 3): #Zombie status: Dead
                 if cycle_time > Constants.DEAD_ANI_TIME:
@@ -244,9 +258,14 @@ class Game:
                         deadAnimationIndex = 3
                         zombieStatus = 1
                         graveStoneIndex = random.randint(0, Constants.GRAVE_NUM_MAX - 1)
+                        # self.generateZombie()
 
             self.update_sprite(pic, graveStoneIndex, isHit)
             self.render_high_score()
+            if gameTime - lastSpawnTime > respawnTime:
+                if self.generateZombies(min(math.floor(math.log(self.level, 2)), Constants.MAX_ZOMBIES)):
+                    lastSpawnTime = gameTime
+
             self.render_lives()
             self.game_over()
 

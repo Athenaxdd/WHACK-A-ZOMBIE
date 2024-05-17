@@ -10,6 +10,7 @@ class LevelConstants:
 class ZombieConstants:
 	ZOM_WIDTH = 98
 	ZOM_HEIGHT = 81
+	MAX_ZOMBIES = 3
 
 	ZOM_SPRITE_1 = [179, 0, 117, 81]
 	ZOM_SPRITE_2 = [313, 0, 117, 81]
@@ -62,7 +63,7 @@ class TextConstants:
 
 	HIT_POS = GameConstants.SCREEN_WIDTH / 4 * 0.4
 	MISS_POS = GameConstants.SCREEN_WIDTH / 4 * 1.3
-	LEVEL_POS = GameConstants.SCREEN_WIDTH / 4 * 2.3
+	LEVEL_POS = GameConstants.SCREEN_WIDTH / 4 * 2.2
 	HIGH_SCORE_POS = GameConstants.SCREEN_WIDTH / 4 * 3.3
 
 	LIVES_POS = GameConstants.SCREEN_HEIGHT/-1 * 1
@@ -85,3 +86,17 @@ class SoundConstants:
 class Constants(GameConstants, LevelConstants, ZombieConstants, GraveConstants, HammerConstants, 
 	TimeConstants, AnimationConstants, FontConstants, TextConstants, ImageConstants, SoundConstants):
 	LEFT_MOUSE_BUTTON = 1
+
+class Zombie:
+	def __init__(self):
+		self.index = -1
+		self.zombieStatus = -1
+		self.animationIndex = 0
+		self.stayTime = 0
+		self.pic = None
+	def __init__(self, index, pic):
+		self.index = index					# Equal to position of its grave
+		self.zombieStatus = 0
+		self.animationIndex = 0
+		self.stayTime = 0					# Existing time of its frame
+		self.pic = pic
